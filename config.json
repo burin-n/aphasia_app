@@ -1,4 +1,5 @@
 {
+    "backend" : "http://161.200.194.159:5000",
     "targetWords" : [
         {
             "name" : "D00_000",

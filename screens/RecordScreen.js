@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Alert, ActivityIndicator} from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
-
-
+const config = require('../config.json');
 
 
 export default class RecordScreen extends React.Component{
@@ -12,7 +11,9 @@ export default class RecordScreen extends React.Component{
 
   constructor(props) {
     super(props);
-    this.backend_url = 'http://161.200.194.159:5000';
+    // this.backend_url = 'http://161.200.194.159:5000';
+    // this.backend_url = 'http://35.198.200.19:5000';
+    this.backend_url = config['backend'];
     this.recorder = null;
     this.recorderSettings = JSON.parse(JSON.stringify(RECORDING_OPTIONS_PRESET_HIGH_QUALITY));
     this.sound = null;
@@ -170,7 +171,7 @@ export default class RecordScreen extends React.Component{
       // this.setState({
       //   score : res_body
       // })
-    console.log('fetching...', path)
+    console.log('fetching...', this.backend_url)
     // Send a POST request
     
     const file = {
@@ -193,9 +194,7 @@ export default class RecordScreen extends React.Component{
       feedback = JSON.parse(response._bodyText).score
       console.log(feedback)
       if(!response.ok) Alert.alert('','Server Error')
-      else Alert.alert('Score',
-      `Initial: ${parseFloat(feedback.init).toFixed(2)}\nVowel: ${parseFloat(feedback.vow).toFixed(2)}\nFinal: ${parseFloat(feedback.final).toFixed(2)}\n`)
-    
+      else Alert.alert('Score',response._bodyText)
     } catch(error) {
       console.log(error)
       Alert.alert('','network error')
@@ -270,7 +269,7 @@ export const RECORDING_OPTIONS_PRESET_HIGH_QUALITY = {
       bitRate: 128000,
   },
   ios: {
-      extension: '.caf',
+      extension: '.m4a',
       audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
       sampleRate: 16000,
       numberOfChannels: 1,
