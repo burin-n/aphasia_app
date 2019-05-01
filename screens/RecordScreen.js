@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Alert, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View, Button, Alert, ActivityIndicator, TouchableOpacity} from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 const config = require('../config.json');
 
@@ -27,10 +27,11 @@ export default class RecordScreen extends React.Component{
       haveRecordPermission: false,
       buttonTitle: "Start",
       buttonState: 'Idle',
-      buttonColor: buttonColorChoices['Idle'],
       isLoading : false,
       isRecording: false, 
     };
+
+    
   }
 
   componentDidMount() {
@@ -52,9 +53,9 @@ export default class RecordScreen extends React.Component{
   }
 
   _onRecordPressed(){
+    console.log(this.state.isRecording)
     if (this.state.isRecording) {
-      this._stopRecording();
-      // this._fetch_feedback(this.state.audioURI);
+      this._stopRecording();    
     } else {
       this._startRecording();
     }
@@ -208,6 +209,15 @@ export default class RecordScreen extends React.Component{
     })
   }
 
+  _getButtonStyle(){
+    let style = Object.assign({}, styles.button)
+    if(this.state.isLoading) style["backgroundColor"] = "#6d6d69"
+    else if(this.state.isRecording) style["backgroundColor"] = buttonColorChoices["Record"]
+    else style["backgroundColor"] = buttonColorChoices["Idle"] 
+
+    console.log('style', style)
+    return style
+  }
 
   render() {
     return this.state.haveRecordPermission ? (
@@ -215,20 +225,19 @@ export default class RecordScreen extends React.Component{
 
         <Text style={styles.welcome}>{this.targetWord}</Text>
         <Text style={styles.instructions}>{this.targetName}</Text>
-
-        <Button
+        <TouchableOpacity
+          style={this._getButtonStyle()}
           onPress={() => this._onRecordPressed()}
-          title={this.state.isRecording ? "Stop" : "Start"}
-          color={this.state.isRecording ? buttonColorChoices["Stop"] : buttonColorChoices["Start"]}
-          disabled={this.state.isLoading}
-        />
-
+          disabled={this.state.isLoading} 
+        >
+          <Text style={styles.button_text}>{this.state.isRecording ? "หยุด" : "อัดเสียง"}</Text>
+        </TouchableOpacity>
         {this.state.isLoading && <ActivityIndicator size="large" color="#737373" /> }
         
       </View>
     ) : (
       <View style={styles.container}>
-        <Text>No Permission</Text>
+        <Text>No Permission</Text> 
       </View>
     );
   }
@@ -243,7 +252,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   welcome: {
-    fontSize: 20,
+    fontSize: 50,
     textAlign: 'center',
     margin: 10,
   },
@@ -252,6 +261,17 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    width: "90%",
+    height: "50%",
+  },
+  button_text : {
+    color : "#FFFFFF",
+    fontSize : 30
+  }
 });
 
 const buttonColorChoices = {
