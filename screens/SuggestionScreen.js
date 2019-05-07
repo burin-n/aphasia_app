@@ -13,7 +13,7 @@ export default class SuggestionScreen extends React.Component {
                 style={styles.container}
                 javaScriptEnabled={true}
                 source={{
-                    uri: 'https://www.youtube.com/embed/MbO6vGBkx48',
+                    uri: 'https://www.youtube.com/embed/inNe8h2H_7E',
                 }}
             />
       );

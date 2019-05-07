@@ -1,12 +1,12 @@
 {
   "expo": {
     "name": "Repsia",
-    "slug": "repsia-dev",
+    "slug": "Repsia",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,15 +22,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "permissions": [
         "RECORD_AUDIO",
         "READ_INTERNAL_STORAGE",
         "WRITE_INTERNAL_STORAGE"
-      ]
+      ],
+      "package": "com.chula.aphasia"
     },
     "description": ""
   }
